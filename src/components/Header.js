@@ -1,17 +1,30 @@
 import React from "react";
 import { MdMenu, MdSearch } from "react-icons/md";
 import { BsPersonCircle } from "react-icons/bs";
+import { toggleMenu } from "../slices/appSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 const Header = () => {
+	const dispatch = useDispatch();
+
+	const toggleHandleMenu = () => {
+		dispatch(toggleMenu());
+	};
 	return (
-		<div className="grid grid-flow-col p-5 m-2 shadow-lg">
+		<div className="grid grid-flow-col p-3 m-2 shadow-lg">
 			<div className="flex col-span-1">
-				<MdMenu className="h-8" />
-				<img
-					className="h-8 mx-2"
-					width="150px"
-					alt="youtube-logo"
-					src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/2560px-YouTube_Logo_2017.svg.png"
+				<MdMenu
+					className="h-8 cursor-pointer"
+					onClick={() => toggleHandleMenu()}
 				/>
+				<a href="/">
+					<img
+						className="h-8 mx-2"
+						width="150px"
+						alt="youtube-logo"
+						src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/2560px-YouTube_Logo_2017.svg.png"
+					/>
+				</a>
 			</div>
 			<div className="col-span-10 px-10">
 				<input
