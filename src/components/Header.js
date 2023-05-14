@@ -3,8 +3,9 @@ import { MdMenu, MdSearch } from "react-icons/md";
 import { BsPersonCircle } from "react-icons/bs";
 import { toggleMenu } from "../slices/appSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { YOUTUBE_SEARCH_SUGGESTIONS_API } from "../utils/constants";
 import { cacheResults } from "../slices/searchSlice";
+import { Link } from "react-router-dom";
 
 const Header = () => {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -29,7 +30,7 @@ const Header = () => {
 	}, [searchQuery]);
 
 	const getSearchSuggestions = async () => {
-		const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+		const data = await fetch(YOUTUBE_SEARCH_SUGGESTIONS_API + searchQuery);
 		const json = await data.json();
 		setSuggestions(json[1]);
 
@@ -63,24 +64,21 @@ const Header = () => {
 						value={searchQuery}
 						onChange={(e) => setSearchQuery(e.target.value)}
 						onFocus={() => setShowSuggestions(true)}
-						onBlur={() => setShowSuggestions(false)}
+						// onBlur={() => setShowSuggestions(false)}
 					/>
 					<button className="rounded-r-full px-5 py-2 border bg-gray-100 border-gray-400">
 						{/* <MdSearch /> */}🔍
 					</button>
 				</div>
 				{showSuggestions && suggestions.length > 0 && (
-					<div className="absolute py-2 px-2 bg-white w-[31rem] shadow-lg rounded-lg border border-gray-200">
-						<ul>
-							{suggestions.map((sug) => (
-								<li
-									key={sug}
-									className="flex px-3 items-center shadow-sm py-2 hover:bg-gray-100"
-								>
+					<div className="absolute top-10 rounded-lg border-gray-900 bg-white hover:bg-gray-400-200 w-96 shadow-lg py-2">
+						{suggestions.map((sug) => (
+							<Link key={sug} to="/results" state={{ searchedQuery: sug }}>
+								<li className="flex px-3 items-center shadow-sm py-2 hover:bg-gray-100">
 									<MdSearch /> <span className="px-2">{sug}</span>
 								</li>
-							))}
-						</ul>
+							</Link>
+						))}
 					</div>
 				)}
 			</div>
@@ -92,3 +90,29 @@ const Header = () => {
 };
 
 export default Header;
+
+{
+	/* <ul className="absolute top-10 rounded-lg border-gray-900 bg-white hover:bg-gray-400-200 w-96 shadow-lg py-2">
+						{suggestions.map((item) => {
+							console.log(item);
+							return (
+								<form>
+									<Link
+										key={item}
+										to="/results"
+										state={{ searchedQuery: item }}
+										onClick={(e) => {
+											e.stopPropagation();
+											e.preventDefault();
+											setSearchQuery("");
+										}}
+										className="flex items-center pt-3 px-5 hover:bg-gray-50 font-semibold text-slate-700"
+									>
+										{/* <img src={MaginfierIcon} alt="maginfierIcon" className='h-5 w-5 mr-4' /> */
+}
+// 					{item}
+// 				</Link>
+// 			</form>
+// 		);
+// 	})}
+// </ul> */}

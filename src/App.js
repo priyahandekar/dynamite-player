@@ -6,6 +6,7 @@ import store from "./utils/store";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainContainer from "./components/MainContainer";
 import WatchPage from "./components/WatchPage";
+import SearchResultsPage from "./components/SearchResults";
 
 const appRouter = createBrowserRouter([
 	{
@@ -13,12 +14,16 @@ const appRouter = createBrowserRouter([
 		element: <Body />,
 		children: [
 			{
-				path: "/",
+				path: "",
 				element: <MainContainer />,
 			},
 			{
 				path: "watch",
 				element: <WatchPage />,
+			},
+			{
+				path: "results",
+				element: <SearchResultsPage />,
 			},
 		],
 	},
@@ -27,8 +32,9 @@ function App() {
 	return (
 		<Provider store={store}>
 			<div className="App">
-				<Header />
-				<RouterProvider router={appRouter} />
+				<RouterProvider router={appRouter}>
+					<Body />
+				</RouterProvider>
 				{/* 
       * Header
       * Body
