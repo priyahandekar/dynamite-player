@@ -13,8 +13,9 @@ const SearchResultsPage = () => {
 			const res = await fetch(
 				YOUTUBE_SEARCH_RESULTS_API + `&q=${searchedQuery}`
 			);
-			console.log(res, "res");
-			setSearchResults(res.data.items);
+			const data = await res.json();
+			console.log(data, "res");
+			setSearchResults(data.items);
 		};
 
 		fetchSearchedResults();
